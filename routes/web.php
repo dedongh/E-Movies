@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,5 @@ Route::get('/login', 'HomeController@login')->name('home.login');
 Route::get('/register', 'HomeController@register')->name('home.register');
 
 
-//Auth::routes();
+Auth::routes();
 require 'admin.php';
