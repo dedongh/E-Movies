@@ -72,12 +72,20 @@ class SettingsTableSeeder extends Seeder
             'value' => '',
         ],
         [
+            'key'                       =>  'flutterwave_payment_method',
+            'value'                     =>  '',
+        ],
+        [
             'key' => 'flutterwave_client_id',
             'value' => '',
         ],
         [
             'key' => 'flutterwave_secret_id',
             'value' => '',
+        ],
+        [
+            'key'                       =>  'momo_payment_method',
+            'value'                     =>  '',
         ],
         [
             'key' => 'momo_client_id',

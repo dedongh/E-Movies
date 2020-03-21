@@ -2,6 +2,9 @@
   <dictionary name="KAY">
     <words>
       <w>authenticatable</w>
+      <w>dropzone</w>
+      <w>flutterwave</w>
+      <w>momo</w>
     </words>
   </dictionary>
 </component>
