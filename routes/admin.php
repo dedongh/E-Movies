@@ -23,10 +23,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/reviews', 'Admin\SettingController@change')->name('admin.reviews');
 
         Route::group(['prefix' => 'genre'], function () {
-            Route::get('/add', 'Admin\SettingController@change')->name('admin.genre');
-            Route::get('/view', 'Admin\SettingController@change')->name('admin.genre.view');
-            Route::get('/category', 'Admin\SettingController@change')->name('admin.category.add');
-            Route::get('/category_view', 'Admin\SettingController@change')->name('admin.category.view');
+            Route::get('/add', 'Admin\GenreController@add')->name('admin.genre');
+            Route::get('/view', 'Admin\GenreController@view')->name('admin.genre.view');
+            Route::get('/category', 'Admin\GenreController@change')->name('admin.category.add');
+            Route::get('/category_view', 'Admin\GenreController@change')->name('admin.category.view');
+            Route::get('/{id}/edit', 'Admin\GenreController@edit')->name('admin.genre.edit');
+            Route::get('/{id}/delete', 'Admin\GenreController@delete')->name('admin.genre.delete');
+            Route::post('/update', 'Admin\GenreController@update')->name('admin.genre.update');
+            Route::post('/store', 'Admin\GenreController@store')->name('admin.genre.store');
 
         });
 

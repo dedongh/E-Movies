@@ -14,6 +14,9 @@
     <!-- Icons -->
     <link rel="stylesheet" href="{{asset('backend/css/nucleo.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('backend/css/all.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('backend/css/dataTables.bootstrap4.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('backend/css/buttons.bootstrap4.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('backend/css/select.bootstrap4.min.css')}}" type="text/css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{asset('backend/css/select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('backend/css/quill.core.css')}}" type="text/css">
@@ -319,9 +322,19 @@
 <script src="{{asset('backend/js/js.cookie.js')}}"></script>
 <script src="{{asset('backend/js/jquery.scrollbar.min.js')}}"></script>
 <script src="{{asset('backend/js/jquery-scrollLock.min.js')}}"></script>
-<!-- Argon JS -->
-<script src="{{asset('backend/js/argon.js?v=1.1.0')}}"></script>
 
+
+<script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('backend/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('backend/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('backend/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('backend/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('backend/js/buttons.flash.min.js')}}"></script>
+<script src="{{asset('backend/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('backend/js/jszip.min.js')}}"></script>
+<script src="{{asset('backend/js/pdfmake.min.js')}}"></script>
+<script src="{{asset('backend/js/vfs_fonts.js')}}"></script>
+<script src="{{asset('backend/js/dataTables.select.min.js')}}"></script>
 <script src="{{asset('backend/js/select2.min.js')}}"></script>
 <script src="{{asset('backend/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('backend/js/nouislider.min.js')}}"></script>
@@ -329,6 +342,9 @@
 <script src="{{asset('backend/js/dropzone.min.js')}}"></script>
 <script src="{{asset('backend/js/bootstrap-tagsinput.min.js')}}"></script>
 
+
+<!-- Argon JS -->
+<script src="{{asset('backend/js/argon.js?v=1.1.0')}}"></script>
 @stack('scripts')
 
 </body>
