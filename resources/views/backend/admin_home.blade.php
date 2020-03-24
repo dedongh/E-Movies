@@ -4,7 +4,6 @@
     <div class="main-content" id="panel">
 
         <!-- Header -->
-        <!-- Header -->
         <div class="header pb-6">
             <div class="container-fluid">
                 <div class="header-body">

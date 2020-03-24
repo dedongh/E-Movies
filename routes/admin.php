@@ -27,10 +27,27 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/view', 'Admin\GenreController@view')->name('admin.genre.view');
             Route::get('/category', 'Admin\GenreController@change')->name('admin.category.add');
             Route::get('/category_view', 'Admin\GenreController@change')->name('admin.category.view');
-            Route::get('/{id}/edit', 'Admin\GenreController@edit')->name('admin.genre.edit');
-            Route::get('/{id}/delete', 'Admin\GenreController@delete')->name('admin.genre.delete');
+            Route::get('/{genre_id}/edit', 'Admin\GenreController@edit')->name('admin.genre.edit');
+            Route::get('/{genre_id}/delete', 'Admin\GenreController@delete')->name('admin.genre.delete');
             Route::post('/update', 'Admin\GenreController@update')->name('admin.genre.update');
             Route::post('/store', 'Admin\GenreController@store')->name('admin.genre.store');
+
+        });
+
+        Route::group(['prefix'=>'attributes'], function () {
+            Route::get('/add', 'Admin\AttributesController@add')->name('admin.attributes.add');
+            Route::get('/view', 'Admin\AttributesController@view')->name('admin.attributes.view');
+            Route::post('/store', 'Admin\AttributesController@store')->name('admin.attributes.store');
+            Route::get('/{id}/edit', 'Admin\AttributesController@edit')->name('admin.attributes.edit');
+            Route::post('/update', 'Admin\AttributesController@update')->name('admin.attributes.update');
+            Route::get('/{id}/delete', 'Admin\AttributesController@delete')->name('admin.attributes.delete');
+
+            Route::get('/{id}/add_attributes', 'Admin\AttributeValueController@add_attribute_value')->name('admin.attributes.value.add');
+            Route::get('/{id}/view_attributes', 'Admin\AttributeValueController@view_attribute_value')->name('admin.attributes.value.view');
+            Route::get('/{id}/edit_attribute_value', 'Admin\AttributeValueController@edit_attribute_value')->name('admin.attributes.value.edit');
+            Route::get('/{id}/delete_attributes', 'Admin\AttributeValueController@delete_attribute_value')->name('admin.attributes.value.delete');
+            Route::post('/store_value', 'Admin\AttributeValueController@store_value')->name('admin.attributes.store_value');
+            Route::post('/update_value', 'Admin\AttributeValueController@update_value')->name('admin.attributes.update_value');
 
         });
 

@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-interface GenreContract
+interface AttributeContract
 {
     /**
      * @param string $order
@@ -10,29 +10,29 @@ interface GenreContract
      * @param array $columns
      * @return mixed
      */
-    public function listGenres(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
+    public function listAttributes(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function findGenreById(int $id);
+    public function findAttributeById(int $id);
 
     /**
      * @param array $params
      * @return mixed
      */
-    public function createGenre(array $params);
+    public function createAttribute(array $params);
 
     /**
      * @param array $params
      * @return mixed
      */
-    public function updateGenre(array $params);
+    public function updateAttribute(array $params);
 
     /**
      * @param $id
      * @return bool
      */
-    public function deleteGenre($id);
+    public function deleteAttribute($id);
 }

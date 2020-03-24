@@ -33,43 +33,85 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Action buttons</h3>
+                        <h3 class="mb-0">All Genres</h3>
                         <p class="text-sm mb-0">
-                            This is an exmaple of datatable using the well known datatables.net plugin. This is a
-                            minimal setup in order to get started fast.
+                            This table shows all genres available in our DB
                         </p>
+                        @include('backend.partials.flash')
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-buttons">
                             <thead class="thead-light">
                             <tr>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Slug</th>
+                                <th>Description</th>
+                                <th>Featured</th>
+                                <th>Menu</th>
+                                <th>Publication Status</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>Slug</th>
+                                <th>Description</th>
+                                <th>Featured</th>
+                                <th>Menu</th>
+                                <th>Publication Status</th>
+                                <th>Actions</th>
                             </tr>
                             </tfoot>
                             <tbody>
+                            @foreach($genres as $genre)
+                                @if($genre->id != 1)
                             <tr>
-                                <td>Donna Snider</td>
-                                <td>Customer Support</td>
-                                <td>New York</td>
-                                <td>27</td>
-                                <td>2011/01/25</td>
-                                <td>$112,000</td>
+                                <td>{{$genre->id}}</td>
+                                <td>{{$genre->name}}</td>
+                                <td>{{$genre->slug}}</td>
+                                <td>{{$genre->description}}</td>
+                                <td>
+                                    @if($genre->featured == 1)
+                                        <span class="badge badge-md badge-success">Yes</span>
+                                        @else
+                                        <span class="badge badge-danger">No</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($genre->menu == 1)
+                                        <span class="badge badge-md badge-success">Yes</span>
+                                    @else
+                                        <span class="badge badge-danger">No</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($genre->status == 1)
+                                        <span class="badge badge-md badge-success">Yes</span>
+                                    @else
+                                        <span class="badge badge-danger">No</span>
+                                    @endif
+                                </td>
+                                <td>
+                                   {{-- @if($genre->status == 1)
+                                        <a href="{{route('admin.genre.unactive', $genre->id)}}" class="btn btn-sm btn-neutral">
+                                            <i class="fa fa-thumbs-down"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{route('admin.genre.active', $genre->id)}}" class="btn btn-sm btn-neutral">
+                                            <i class="fa fa-thumbs-up"></i>
+                                        </a>
+                                    @endif--}}
+
+                                    <a href="{{route('admin.genre.edit', $genre->id)}}" class="btn btn-sm btn-neutral"><i class="fa fa-edit"></i></a>
+
+                                    <a href="{{route('admin.genre.delete', $genre->id)}}" class="btn btn-sm btn-neutral"><i class="ni ni-fat-remove"></i></a>
+                                </td>
                             </tr>
+                            @endif
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

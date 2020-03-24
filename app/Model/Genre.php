@@ -11,13 +11,14 @@ class Genre extends Model
     protected $table = 'genres';
 
     protected $fillable = [
-        'name', 'slug', 'description', 'parent_id', 'featured', 'menu', 'image'
+        'name', 'slug', 'description', 'parent_id', 'featured', 'menu', 'status', 'image'
     ];
 
     protected $casts = [
         'parent_id' =>  'integer',
         'featured'  =>  'boolean',
-        'menu'      =>  'boolean'
+        'menu'      =>  'boolean',
+        'status'    =>  'boolean'
     ];
 
     /**
@@ -32,12 +33,12 @@ class Genre extends Model
     // parent genre
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(Genre::class, 'parent_id');
     }
 
     // children genre
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(Genre::class, 'parent_id');
     }
 }

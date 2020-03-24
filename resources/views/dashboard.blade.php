@@ -88,10 +88,10 @@
                                     <a href="{{route('admin.genre.view')}}" class="nav-link">View Genre</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('admin.category.add')}}" class="nav-link">Add Category</a>
+                                    <a href="{{route('admin.attributes.add')}}" class="nav-link">Add Attributes</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('admin.category.view')}}" class="nav-link">View Category</a>
+                                    <a href="{{route('admin.attributes.view')}}" class="nav-link">View Attributes</a>
                                 </li>
                             </ul>
                         </div>

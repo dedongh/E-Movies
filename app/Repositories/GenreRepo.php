@@ -21,7 +21,7 @@ class GenreRepo extends BaseRepository implements GenreContract{
     /**
      * @inheritDoc
      */
-    public function listGenres(string $order = 'genre_id', string $sort = 'desc', array $columns = ['*'])
+    public function listGenres(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
     {
         // TODO: Implement listGenres() method.
         return $this->all($columns, $order, $sort);
@@ -57,8 +57,9 @@ class GenreRepo extends BaseRepository implements GenreContract{
             }
             $featured = $collection->has('featured') ? 1 : 0;
             $menu = $collection->has('menu') ? 1 : 0;
+            $status = $collection->has('status') ? 1 : 0;
 
-            $merge = $collection->merge(compact('menu', 'image', 'featured'));
+            $merge = $collection->merge(compact('menu', 'image', 'featured', 'status'));
 
             $genre = new Genre($merge->all());
 
@@ -76,9 +77,10 @@ class GenreRepo extends BaseRepository implements GenreContract{
     public function updateGenre(array $params)
     {
         // TODO: Implement updateGenre() method.
-        $genre = $this->findGenreById($params['genre_id']);
+        $genre = $this->findGenreById($params['id']);
 
         $collection = collect($params)->except('_token');
+        $image = null;
 
         if ($collection->has('image') && ($params['image'] instanceof  UploadedFile)) {
 
@@ -91,8 +93,9 @@ class GenreRepo extends BaseRepository implements GenreContract{
 
         $featured = $collection->has('featured') ? 1 : 0;
         $menu = $collection->has('menu') ? 1 : 0;
+        $status = $collection->has('status') ? 1 : 0;
 
-        $merge = $collection->merge(compact('menu', 'image', 'featured'));
+        $merge = $collection->merge(compact('menu', 'image', 'featured', 'status'));
 
         $genre->update($merge->all());
 
