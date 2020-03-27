@@ -52,8 +52,17 @@ Route::group(['prefix' => 'admin'], function () {
         });
 
         Route::group(['prefix'=>'movies'], function () {
-            Route::get('/add', 'Admin\SettingController@change')->name('admin.movies');
-            Route::get('/view', 'Admin\SettingController@change')->name('admin.movies.view');
+            Route::get('/add', 'Admin\MovieController@add')->name('admin.movies');
+            Route::get('/view', 'Admin\MovieController@view')->name('admin.movies.view');
+            Route::post('/store', 'Admin\MovieController@store')->name('admin.movies.store');
+            Route::get('{id}/edit', 'Admin\MovieController@edit')->name('admin.movies.edit');
+            Route::get('{id}/delete', 'Admin\MovieController@delete')->name('admin.movies.delete');
+            Route::get('{id}/images', 'Admin\MovieController@images')->name('admin.movies.images');
+            Route::get('{id}/attributes', 'Admin\MovieController@attributes')->name('admin.movies.attributes');
+            Route::post('/update', 'Admin\MovieController@update')->name('admin.movies.update');
+
+            Route::post('/images/upload', 'Admin\MovieImageController@upload')->name('admin.movies.images.upload');
+            Route::get('images/{id}/delete', 'Admin\MovieImageController@delete')->name('admin.movies.images.delete');
         });
 
     });

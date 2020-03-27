@@ -24668,12 +24668,12 @@ table.dataTable tbody > tr.selected {
     padding-right: 1.5rem;
 }
 
-.dropzone {
+/*.dropzone {
     position: relative;
 
     display: flex;
     flex-direction: column;
-}
+}*/
 
 .dz-message {
     z-index: 999;

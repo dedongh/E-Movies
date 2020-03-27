@@ -40,8 +40,8 @@
                         @include('backend.partials.flash')
                     </div>
                     <div class="table-responsive py-4">
-                        <table class="table table-flush" id="datatable-buttons">
-                            <thead class="thead-light">
+                        <table class="table table-dark table-flush" id="datatable-buttons">
+                            <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Code</th>

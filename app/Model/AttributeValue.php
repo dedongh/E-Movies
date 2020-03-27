@@ -21,4 +21,9 @@ class AttributeValue extends Model
     {
         return $this->belongsTo(Attribute::class);
     }
+
+    public function movieAttributes()
+    {
+        return $this->belongsToMany(MovieAttribute::class);
+    }
 }

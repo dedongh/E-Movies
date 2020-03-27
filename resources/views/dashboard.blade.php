@@ -20,6 +20,7 @@
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{asset('backend/css/select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('backend/css/quill.core.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('backend/css/dropzone.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('backend/css/argon.css?v=1.1.0')}}" type="text/css">
 
 </head>
@@ -340,7 +341,9 @@
 <script src="{{asset('backend/js/nouislider.min.js')}}"></script>
 <script src="{{asset('backend/js/quill.min.js')}}"></script>
 <script src="{{asset('backend/js/dropzone.min.js')}}"></script>
+<script src="{{asset('backend/js/bootstrap-notify.min.js')}}"></script>
 <script src="{{asset('backend/js/bootstrap-tagsinput.min.js')}}"></script>
+<script src="{{asset('backend/js/select2.min.js')}}"></script>
 
 
 <!-- Argon JS -->
