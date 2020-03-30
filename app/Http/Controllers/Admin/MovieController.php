@@ -91,4 +91,11 @@ class MovieController extends BaseController
         $this->setPageTitle('Movies', 'Add Images');
         return view('backend.Movies.movie_images', compact('movie'));
     }
+
+    public function attributes($id)
+    {
+        $movie = $this->movieRepo->findMovieById($id);
+        $this->setPageTitle('Movies', 'Add Images');
+        return view('backend.Movie_attributes.add_movie_attributes', compact('movie'));
+    }
 }

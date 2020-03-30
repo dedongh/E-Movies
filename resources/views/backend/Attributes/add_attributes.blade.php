@@ -73,7 +73,7 @@
                                     <select name="frontend_type"
                                             class="form-control @error('frontend_type') is-invalid @enderror"
                                             id="input-last-pay">
-                                        <option value="0">Select a parent genre</option>
+                                        <option value="0">Select a frontend type</option>
 
                                         @foreach($types as $key => $value)
                                             <option value="{{ $key }}"> {{ $value }} </option>

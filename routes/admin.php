@@ -63,6 +63,17 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::post('/images/upload', 'Admin\MovieImageController@upload')->name('admin.movies.images.upload');
             Route::get('images/{id}/delete', 'Admin\MovieImageController@delete')->name('admin.movies.images.delete');
+
+            // load attributes on page load
+            Route::get('attributes/load', 'Admin\MovieAttributeController@loadAttributes');
+            // load movie attributes on page load
+            Route::post('attributes', 'Admin\MovieAttributeController@movieAttributes');
+            // load option values for an attribute
+            Route::post('attributes/values', 'Admin\MovieAttributeController@loadValues');
+            // add movie attribute to the current movie
+            Route::post('attributes/add', 'Admin\MovieAttributeController@addAttribute');
+            // delete movie attribute from the current movie
+            Route::post('attributes/delete', 'Admin\MovieAttributeController@deleteAttribute');
         });
 
     });

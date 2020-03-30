@@ -13,7 +13,7 @@
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard.index')}}"><i
                                             class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{{route('admin.movies.view')}}">All Movies</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Add movie images</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{$movie->title}}</li>
                             </ol>
                         </nav>
                     </div>
@@ -31,7 +31,7 @@
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col-8">
-                        <h3 class="mb-0">Add Movie Images</h3>
+                        <h3 class="mb-0">Add Images for {{$movie->title}}</h3>
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{route('admin.movies.view')}}" class="btn btn-sm btn-primary">Movies</a>

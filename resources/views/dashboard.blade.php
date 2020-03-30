@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Creative Tim">
     <title>@yield('title')</title>
     <!-- Favicon -->
@@ -51,14 +52,16 @@
                 <!-- Nav items -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.dashboard.index' ? 'active' : ''}}" href="{{route('admin.dashboard.index')}}"
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.dashboard.index' ? 'active' : ''}}"
+                           href="{{route('admin.dashboard.index')}}"
                            role="button" aria-expanded="true" aria-controls="navbar-dashboards">
                             <i class="ni ni-shop text-primary"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.movies' ? 'active' : ''}}" href="#navbar-examples" data-toggle="collapse" role="button"
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.movies' ? 'active' : ''}}"
+                           href="#navbar-examples" data-toggle="collapse" role="button"
                            aria-expanded="false" aria-controls="navbar-examples">
                             <i class="ni ni-ungroup text-orange"></i>
                             <span class="nav-link-text">Movies</span>
@@ -75,7 +78,8 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.genre' ? 'active' : ''}}" href="#navbar-components" data-toggle="collapse" role="button"
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.genre' ? 'active' : ''}}"
+                           href="#navbar-components" data-toggle="collapse" role="button"
                            aria-expanded="false" aria-controls="navbar-components">
                             <i class="ni ni-ui-04 text-info"></i>
                             <span class="nav-link-text">Genres</span>
@@ -98,19 +102,22 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.bookings' ? 'active' : ''}}" href="{{route('admin.bookings')}}">
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.bookings' ? 'active' : ''}}"
+                           href="{{route('admin.bookings')}}">
                             <i class="ni ni-book-bookmark text-green"></i>
                             <span class="nav-link-text">Bookings</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.reviews' ? 'active' : ''}}" href="{{route('admin.reviews')}}">
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.reviews' ? 'active' : ''}}"
+                           href="{{route('admin.reviews')}}">
                             <i class="ni ni-badge text-green"></i>
                             <span class="nav-link-text">Reviews</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{Route::currentRouteName() == 'admin.settings' ? 'active' : ''}}" href="#navbar-forms" data-toggle="collapse" role="button"
+                        <a class="nav-link {{Route::currentRouteName() == 'admin.settings' ? 'active' : ''}}"
+                           href="#navbar-forms" data-toggle="collapse" role="button"
                            aria-expanded="false" aria-controls="navbar-forms">
                             <i class="ni ni-single-copy-04 text-pink"></i>
                             <span class="nav-link-text">Settings</span>
@@ -314,7 +321,11 @@
             </div>
         </div>
     </nav>
-@yield('content')
+
+    <main class="app-content" id="app">
+        @yield('content')
+    </main>
+
 </div>
 <!-- Argon Scripts -->
 <!-- Core -->
@@ -344,6 +355,7 @@
 <script src="{{asset('backend/js/bootstrap-notify.min.js')}}"></script>
 <script src="{{asset('backend/js/bootstrap-tagsinput.min.js')}}"></script>
 <script src="{{asset('backend/js/select2.min.js')}}"></script>
+<script src="{{asset('backend/js/app.js')}}"></script>
 
 
 <!-- Argon JS -->
