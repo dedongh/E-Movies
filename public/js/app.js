@@ -49,7 +49,7 @@ Vue.use(VueSwal);
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('attribute-values', require('./components/AttributeValues.vue').default);
-Vue.component('movie-attributes', require('./components/MovieAttributes').default);
+Vue.component('movie-attributes', require('./components/MovieAttribute').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

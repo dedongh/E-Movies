@@ -6,6 +6,9 @@ use App\Contracts\GenreContract;
 use App\Contracts\MovieContract;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\StoreMovieFormRequest;
+use App\Model\Attribute;
+use App\Model\MovieAttribute;
+use App\Model\Movies;
 
 class MovieController extends BaseController
 {
@@ -94,8 +97,27 @@ class MovieController extends BaseController
 
     public function attributes($id)
     {
+
+        $movie_values = Movies::findOrFail($id);
+        $attributes = Attribute::all();
+        $attribute_values = Attribute::findOrFail(1);
         $movie = $this->movieRepo->findMovieById($id);
         $this->setPageTitle('Movies', 'Add Images');
-        return view('backend.Movie_attributes.add_movie_attributes', compact('movie'));
+        return view('backend.Movie_attributes.add_movie_attributes', compact('movie','attributes',
+            'attribute_values','movie_values'));
+    }
+
+    public function editAttribute($id)
+    {
+        $movieAttribute = MovieAttribute::findOrFail($id);
+        $movie_values = Movies::findOrFail($id);
+        $attributes = Attribute::all();
+        $attribute_values = Attribute::findOrFail(1);
+
+        $movie = $this->movieRepo->findMovieById(1);
+
+        $this->setPageTitle('Movies', 'Edit Movie Attribute');
+        return view('backend.Movie_attributes.edit_movie_attributes', compact('movieAttribute',
+            'movie_values', 'attributes','attribute_values','movie'));
     }
 }

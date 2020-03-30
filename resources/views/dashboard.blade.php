@@ -322,9 +322,7 @@
         </div>
     </nav>
 
-    <main class="app-content" id="app">
         @yield('content')
-    </main>
 
 </div>
 <!-- Argon Scripts -->
@@ -355,11 +353,11 @@
 <script src="{{asset('backend/js/bootstrap-notify.min.js')}}"></script>
 <script src="{{asset('backend/js/bootstrap-tagsinput.min.js')}}"></script>
 <script src="{{asset('backend/js/select2.min.js')}}"></script>
-<script src="{{asset('backend/js/app.js')}}"></script>
 
 
 <!-- Argon JS -->
 <script src="{{asset('backend/js/argon.js?v=1.1.0')}}"></script>
+
 @stack('scripts')
 
 </body>

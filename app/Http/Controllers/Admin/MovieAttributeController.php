@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Model\Attribute;
 use App\Model\MovieAttribute;
 use App\Model\Movies;
 use Illuminate\Http\Request;
 
-class MovieAttributeController extends Controller
+class MovieAttributeController extends BaseController
 {
     //
     public function loadAttributes()
@@ -34,20 +34,49 @@ class MovieAttributeController extends Controller
 
     public function addAttribute(Request $request)
     {
-        $movieAttribute = MovieAttribute::create($request->data);
+        $params = $request->except('_token');
+        $movieAttribute = MovieAttribute::create($params);
 
-        if ($movieAttribute) {
-            return response()->json(['message' => 'Movie attribute added successfully.']);
-        } else {
-            return response()->json(['message' => 'Something went wrong while submitting movie attribute.']);
+        if (!$movieAttribute) {
+            return $this->responseRedirectBack('Error occurred while creating attribute.', 'error', true, true);
         }
+        return $this->responseRedirectBack('Attribute created successfully', 'success', false, false);
     }
 
-    public function deleteAttribute(Request $request)
+    public function deleteAttribute($id)
     {
-        $movieAttribute = MovieAttribute::findOrFail($request->id);
+        $movieAttribute = MovieAttribute::findOrFail($id);
         $movieAttribute->delete();
 
-        return response()->json(['status' => 'success', 'message' => 'Movie attribute deleted successfully.']);
+        if (!$movieAttribute) {
+            return $this->responseRedirectBack('Error occurred while creating attribute.', 'error', true, true);
+        }
+        return $this->responseRedirectBack('Attribute deleted successfully', 'success', false, false);
+
     }
+
+    public function editAttribute($id)
+    {
+        $movieAttribute = MovieAttribute::findOrFail($id);
+        $movie_values = Movies::findOrFail($id);
+        $attributes = Attribute::all();
+        $attribute_values = Attribute::findOrFail(1);
+
+        $this->setPageTitle('Movies', 'Edit Movie Attribute');
+        return view('backend.Movie_attributes.edit_movie_attributes', compact('movieAttribute',
+            'movie_values', 'attributes','attribute_values'));
+    }
+
+    public function updateAttribute(Request $request)
+    {
+        $params = $request->except('_token');
+        $movieAttribute = MovieAttribute::where('id', $request->id)->update($params);
+
+        if (!$movieAttribute) {
+            return $this->responseRedirectBack('Error occurred while creating attribute.', 'error', true, true);
+        }
+        return $this->responseRedirectBack('Attribute updated successfully', 'success', false, false);
+    }
+
+
 }

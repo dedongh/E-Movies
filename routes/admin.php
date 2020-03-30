@@ -71,9 +71,13 @@ Route::group(['prefix' => 'admin'], function () {
             // load option values for an attribute
             Route::post('attributes/values', 'Admin\MovieAttributeController@loadValues');
             // add movie attribute to the current movie
-            Route::post('attributes/add', 'Admin\MovieAttributeController@addAttribute');
+            Route::post('attributes/add', 'Admin\MovieAttributeController@addAttribute')->name('admin.movies.add.attributes');
             // delete movie attribute from the current movie
-            Route::post('attributes/delete', 'Admin\MovieAttributeController@deleteAttribute');
+            Route::get('{id}/attributes/delete', 'Admin\MovieAttributeController@deleteAttribute')->name('admin.movies.delete.attributes');
+            // edit
+            Route::get('{id}/attributes/edit', 'Admin\MovieAttributeController@editAttribute')->name('admin.movies.edit.attributes');
+
+            Route::post('attributes/update', 'Admin\MovieAttributeController@updateAttribute')->name('admin.movies.update.attributes');
         });
 
     });

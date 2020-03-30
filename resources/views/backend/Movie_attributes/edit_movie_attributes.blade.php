@@ -31,7 +31,7 @@
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col-8">
-                        <h3 class="mb-0">{{$movie->title}}</h3>
+                        <h3 class="mb-0">Edit Attribute</h3>
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{route('admin.movies.view')}}" class="btn btn-sm btn-primary">Movies</a>
@@ -41,7 +41,7 @@
             <div class="card-body">
 
                 @include('backend.partials.flash')
-                <form action="{{route('admin.movies.add.attributes')}}" method="post" enctype="multipart/form-data"
+                <form action="{{route('admin.movies.update.attributes')}}" method="post" enctype="multipart/form-data"
                       role="form">
                     @csrf
                     <div class="pl-lg-4">
@@ -57,7 +57,7 @@
                                         @endforeach
                                     </select>
                                     @error('attribute_id') {{ $message }} @enderror
-                                    <input type="hidden" name="movies_id" value="{{$movie->id}}">
+                                    <input type="hidden" name="id" value="{{$movieAttribute->id}}">
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,11 @@
                                     <select name="day" class="form-control-sm @error('day') is-invalid @enderror"
                                             id="values">
                                         @foreach($attribute_values->values as $values)
-                                            <option value="{{$values->value}}"> {{$values->value}}</option>
+                                            @if($movieAttribute->day == $values->value)
+                                            <option value="{{$values->value}}" selected> {{$values->value}}</option>
+                                            @else
+                                                <option value="{{$values->value}}" > {{$values->value}}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     @error('day') {{ $message }} @enderror
@@ -80,7 +84,7 @@
                                     <label class="form-control-label" for="input-username">Showing time</label>
                                     <input type="time" id="input-username"
                                            class="form-control form-control-sm @error('time') is-invalid @enderror"
-                                           name="time" value="{{old('time')}}">
+                                           name="time" value="{{old('time',$movieAttribute->time)}}">
                                     @error('time') {{$message}} @enderror
                                 </div>
                             </div>
@@ -89,7 +93,7 @@
                                     <label class="form-control-label" for="input-username1">Ticket Price</label>
                                     <input type="text" id="input-username1"
                                            class="form-control form-control-sm @error('ticket_price') is-invalid @enderror"
-                                           name="ticket_price" value="{{old('ticket_price', $movie->ticket_price)}}">
+                                           name="ticket_price" value="{{old('ticket_price',$movieAttribute->ticket_price)}}">
                                     @error('ticket_price') {{$message}} @enderror
                                 </div>
                             </div>
@@ -98,7 +102,7 @@
                                     <label class="form-control-label" for="input-username1">Auditorium</label>
                                     <input type="text" id="input-username1"
                                            class="form-control form-control-sm @error('auditorium') is-invalid @enderror"
-                                           name="auditorium" value="{{old('auditorium')}}">
+                                           name="auditorium" value="{{old('auditorium', $movieAttribute->auditorium)}}">
                                     @error('auditorium') {{$message}} @enderror
                                 </div>
                             </div>
@@ -107,7 +111,7 @@
                                     <label class="form-control-label" for="input-username11">Tickets Available</label>
                                     <input type="number" id="input-username11" min="1"
                                            class="form-control form-control-sm @error('tickets_avail') is-invalid @enderror"
-                                           name="tickets_avail" value="{{old('tickets_avail')}}">
+                                           name="tickets_avail" value="{{old('tickets_avail',$movieAttribute->tickets_avail)}}">
                                     @error('tickets_avail') {{$message}} @enderror
                                 </div>
                             </div>
@@ -115,68 +119,12 @@
                         <div class="col-6 text-right">
                             <button class="btn btn-icon btn-primary" type="submit">
                                 <span class="btn-inner--icon"><i class="ni ni-like-2"></i></span>
-                                <span class="btn-inner--text">Save</span>
+                                <span class="btn-inner--text">Update</span>
                             </button>
                         </div>
                     </div>
                 </form>
 
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header">
-                        <h3 class="mb-0">All Attribute values</h3>
-                        <p class="text-sm mb-0">
-                            This table shows all attribute values for selected attribute available in our DB
-                        </p>
-                    </div>
-                    <div class="table-responsive py-4">
-                        <table class="table table-dark table-flush" id="datatable-buttons">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th>Day</th>
-                                <th>Time</th>
-                                <th>Auditorium</th>
-                                <th>Price</th>
-                                <th>Tickets Available</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Day</th>
-                                <th>Time</th>
-                                <th>Auditorium</th>
-                                <th>Price</th>
-                                <th>Tickets Available</th>
-                                <th>Actions</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            @foreach($movie_values->attributes as $mov_val)
-                            <tr>
-                                <td>{{$mov_val->day}}</td>
-                                <td>{{$mov_val->time}}</td>
-                                <td>{{$mov_val->auditorium}}</td>
-                                <td>{{$mov_val->ticket_price}}</td>
-                                <td>{{$mov_val->tickets_avail}}</td>
-                                <td>
-                                    <a href="{{route('admin.movies.edit.attributes', $mov_val->id)}}"
-                                       class="btn btn-sm btn-neutral"><i class="fa fa-edit"></i></a>
-
-                                    <a href="{{route('admin.movies.delete.attributes', $mov_val->id)}}"
-                                       class="btn btn-sm btn-neutral"><i class="ni ni-fat-remove"></i></a>
-                                </td>
-                            </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
