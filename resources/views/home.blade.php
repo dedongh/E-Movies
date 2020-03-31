@@ -30,7 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>TixGo – Online Movies, TV Shows & Cinema</title>
+    <title>@yield('title')</title>
 
 </head>
 <body class="body">

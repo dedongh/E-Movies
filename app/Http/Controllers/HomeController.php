@@ -12,7 +12,7 @@ class HomeController extends BaseController
 
     }
 
-    public function login()
+   /* public function login()
     {
         return view('frontend.login');
     }
@@ -20,5 +20,5 @@ class HomeController extends BaseController
     public function register()
     {
         return view('frontend.register');
-    }
+    }*/
 }

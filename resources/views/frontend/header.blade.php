@@ -61,10 +61,23 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            <a href="{{url('/login')}}" class="header__sign-in">
+                            @guest
+                            <a href="{{route('login')}}" class="header__sign-in">
                                 <i class="icon ion-ios-log-in"></i>
                                 <span>sign in</span>
                             </a>
+                                @else
+                                <a href="{{route('logout')}}" class="header__sign-in"
+                                   onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit() "
+                                >
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>Logout</span>
+                                </a>
+                                <form id="logout-form" action="{{route('logout')}}" method="post" style="display: none">
+                                    @csrf
+                                </form>
+                                @endguest
                         </div>
                         <!-- end header auth -->
 

@@ -2,6 +2,7 @@
 @prepend('header')
     @include('frontend.header')
 @endprepend
+@section('title'){{config('settings.site_name')}} | {{config('settings.site_title')}} @endsection
 @section('new_items_season')
 
     <section class="home">
