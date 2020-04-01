@@ -1,3 +1,14 @@
+@php
+    use App\Model\Movies;
+   function criteria($criteria){
+       return Movies::where($criteria,1)
+                   ->get();
+   }
+
+   $new_items = criteria('new_item');
+   $coming_soon = criteria('coming_soon');
+@endphp
+
 @extends('home')
 @prepend('header')
     @include('frontend.header')
@@ -18,7 +29,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1 class="home__title"><b>NEW ITEMS</b> OF THIS SEASON</h1>
+                    <h1 class="home__title"><b>NEW ITEMS</b> OF THIS SEASON </h1>
 
                     <button class="home__nav home__nav--prev" type="button">
                         <i class="icon ion-ios-arrow-round-back"></i>
@@ -30,46 +41,37 @@
 
                 <div class="col-12">
                     <div class="owl-carousel home__carousel">
-                        <div class="item">
-                            <!-- card -->
-                            <div class="card card--big">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
+                        @foreach($new_items as $new_item)
+                            <div class="item">
+                                <!-- card -->
+                                <div class="card card--big">
+                                    <div class="card__cover">
+                                        @if($new_item->images->count() > 0)
+                                            <img src="{{asset('storage/'.$new_item->images->first()->full)}}" alt="">
+                                            <a href="{{route('movie.show', $new_item->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @else
+                                            <img src="https://via.placeholder.com/176" alt="">
+                                            <a href="{{route('movie.show', $new_item->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="card__content">
+                                        <h3 class="card__title"><a href="#">{{$new_item->title}}</a></h3>
+                                        <span class="card__category">
+										 @foreach($new_item->genres as $genre)
+                                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                            @endforeach
 									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    </div>
                                 </div>
+                                <!-- end card -->
                             </div>
-                            <!-- end card -->
-                        </div>
+                        @endforeach
 
-                        <div class="item">
-                            <!-- card -->
-                            <div class="card card--big">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover2.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                            <!-- end card -->
-                        </div>
 
                     </div>
                 </div>
@@ -85,7 +87,7 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- content title -->
-                        <h2 class="content__title">New items</h2>
+                        <h2 class="content__title">Now showing</h2>
                         <!-- end content title -->
 
                         <!-- content tabs nav -->
@@ -386,77 +388,79 @@
 @endsection
 
 @section('expected_premiere')
-@include('frontend.expected_premeire')
+    @include('frontend.expected_premeire')
 @endsection
 
 @section('our_partners')
     <section class="section">
-    <div class="container">
-        <div class="row">
-            <!-- section title -->
-            <div class="col-12">
-                <h2 class="section__title section__title--no-margin">Our Partners</h2>
-            </div>
-            <!-- end section title -->
+        <div class="container">
+            <div class="row">
+                <!-- section title -->
+                <div class="col-12">
+                    <h2 class="section__title section__title--no-margin">Our Partners</h2>
+                </div>
+                <!-- end section title -->
 
-            <!-- section text -->
-            <div class="col-12">
-                <p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a
-                    reader will be distracted by the readable content of a page when looking at its layout. The point of
-                    using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.
-                </p>
-            </div>
-            <!-- end section text -->
+                <!-- section text -->
+                <div class="col-12">
+                    <p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a
+                        reader will be distracted by the readable content of a page when looking at its layout. The
+                        point of
+                        using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to
+                        using.
+                    </p>
+                </div>
+                <!-- end section text -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/themeforest-light-background.png" alt="" class="partner__img">
-                </a>
-            </div>
-            <!-- end partner -->
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/themeforest-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/audiojungle-light-background.png" alt="" class="partner__img">
-                </a>
-            </div>
-            <!-- end partner -->
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/codecanyon-light-background.png" alt="" class="partner__img">
-                </a>
-            </div>
-            <!-- end partner -->
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/photodune-light-background.png" alt="" class="partner__img">
-                </a>
-            </div>
-            <!-- end partner -->
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/photodune-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/activeden-light-background.png" alt="" class="partner__img">
-                </a>
-            </div>
-            <!-- end partner -->
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/activeden-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
 
-            <!-- partner -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                <a href="#" class="partner">
-                    <img src="img/partners/3docean-light-background.png" alt="" class="partner__img">
-                </a>
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="img/partners/3docean-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
             </div>
-            <!-- end partner -->
         </div>
-    </div>
     </section>
 @endsection
 

@@ -35,4 +35,10 @@ interface GenreContract
      * @return bool
      */
     public function deleteGenre($id);
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function findBySlug($slug);
 }

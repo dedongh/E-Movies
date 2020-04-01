@@ -117,4 +117,17 @@ class GenreRepo extends BaseRepository implements GenreContract{
 
         return $genre;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findBySlug($slug)
+    {
+        // TODO: Implement findBySlug() method.
+        return Genre::with('movies')
+            ->where('slug', $slug)
+            ->where('menu', 1)
+            ->first();
+    }
+
 }

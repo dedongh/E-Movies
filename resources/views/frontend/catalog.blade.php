@@ -1,4 +1,5 @@
 @extends('home')
+@section('title'){{config('settings.site_name')}} | {{$genre->name}} @endsection
 @prepend('header')
     @include('frontend.header')
 @endprepend
@@ -11,13 +12,13 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h2 class="section__title">Catalog grid</h2>
+                        <h2 class="section__title">{{$genre->name}}</h2>
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
                         <ul class="breadcrumb">
                             <li class="breadcrumb__item"><a href="{{URL::to('/')}}">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Catalog grid</li>
+                            <li class="breadcrumb__item breadcrumb__item--active">{{$genre->name}}</li>
                         </ul>
                         <!-- end breadcrumb -->
                     </div>
@@ -40,48 +41,20 @@
 
                                 <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre"
                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="Action/Adventure">
+                                    <input type="button" value="{{$genre->name}}">
                                     <span></span>
                                 </div>
 
                                 <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
                                     aria-labelledby="filter-genre">
-                                    <li>Action/Adventure</li>
-                                    <li>Animals</li>
-                                    <li>Animation</li>
-                                    <li>Biography</li>
-                                    <li>Comedy</li>
-                                    <li>Cooking</li>
-                                    <li>Dance</li>
-                                    <li>Documentary</li>
-                                    <li>Drama</li>
-                                    <li>Education</li>
-                                    <li>Entertainment</li>
-                                    <li>Family</li>
-                                    <li>Fantasy</li>
-                                    <li>History</li>
-                                    <li>Horror</li>
-                                    <li>Independent</li>
-                                    <li>International</li>
-                                    <li>Kids</li>
-                                    <li>Kids & Family</li>
-                                    <li>Medical</li>
-                                    <li>Military/War</li>
-                                    <li>Music</li>
-                                    <li>Musical</li>
-                                    <li>Mystery/Crime</li>
-                                    <li>Nature</li>
-                                    <li>Paranormal</li>
-                                    <li>Politics</li>
-                                    <li>Racing</li>
-                                    <li>Romance</li>
-                                    <li>Sci-Fi/Horror</li>
-                                    <li>Science</li>
-                                    <li>Science Fiction</li>
-                                    <li>Science/Nature</li>
-                                    <li>Spanish</li>
-                                    <li>Travel</li>
-                                    <li>Western</li>
+                                    @foreach($genres as $genre)
+                                        @if($genre->id != 1)
+                                            <li>
+                                                <a style="color: white"
+                                                   href="{{route('genre.show',$genre->slug )}}">{{$genre->name}}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <!-- end filter item -->
@@ -162,48 +135,40 @@
         <div class="container">
             <div class="row">
                 <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="{{asset('frontend/img/covers/cover.jpg')}}" alt="">
-                            <a href="#" class="card__play">
+            @forelse($ass_movie as $movie)
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                <div class="card">
+                    <div class="card__cover">
+                        @if($movie->images->count() > 0)
+                        <img src="{{asset('storage/'. $movie->images->first()->full)}}" alt="" >
+                        <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
+                            <i class="icon ion-ios-play"></i>
+                        </a>
+                            @else
+                            <img src="https://via.placeholder.com/176" alt="">
+                            <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
                                 <i class="icon ion-ios-play"></i>
                             </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                            <span class="card__category">
-								<a href="#">Action</a>
-								<a href="#">Triler</a>
-							</span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                        </div>
+                            @endif
+                    </div>
+                    <div class="card__content">
+                        <h3 class="card__title"><a href="#">{{$movie->title}}</a></h3>
+                        <span class="card__category">
+                            @foreach($movie->genres as $genre)
+                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                            @endforeach
+                        </span>
+                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                     </div>
                 </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="{{asset('frontend/img/covers/cover2.jpg')}}" alt="">
-                            <a href="#" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="#">Benched</a></h3>
-                            <span class="card__category">
-								<a href="#">Comedy</a>
-							</span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
+            </div>
+                @empty
+                <h2 class="section__title">No Movies Available</h2>
+            @endforelse
+            <!-- end card -->
 
 
-                <!-- paginator -->
+            <!-- paginator -->
                 <div class="col-12">
                     <ul class="paginator">
                         <li class="paginator__item paginator__item--prev">

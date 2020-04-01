@@ -1,4 +1,5 @@
 @extends('home')
+@section('title'){{config('settings.site_name')}} | {{$movie->title}} @endsection
 @prepend('header')
     @include('frontend.header')
 @endprepend
@@ -15,7 +16,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">I Dream in Another Language</h1>
+                    <h1 class="details__title">{{$movie->title}}</h1>
                 </div>
                 <!-- end title -->
 
@@ -26,7 +27,11 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
                                 <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover.jpg')}}" alt="">
+                                    @if($movie->images->count() > 0)
+                                        <img src="{{asset('storage/'.$movie->images->first()->full)}}" alt="">
+                                    @else
+                                        <img src="https://via.placeholder.com/176" alt="">
+                                    @endif
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -44,21 +49,20 @@
                                     </div>
 
                                     <ul class="card__meta">
-                                        <li><span>Genre:</span> <a href="#">Action</a>
-                                            <a href="#">Triler</a></li>
-                                        <li><span>Release year:</span> 2017</li>
-                                        <li><span>Running time:</span> 120 min</li>
-                                        <li><span>Country:</span> <a href="#">USA</a></li>
+                                        <li><span>Genre:</span>
+                                            @foreach($movie->genres as $genre)
+                                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                            @endforeach
+                                        </li>
+                                        <li><span>Release year:</span> {{$movie->release_date}}</li>
+                                        <li><span>Running time:</span> {{$movie->running_time}}</li>
+                                        <li><span>Price:</span> <a
+                                                href="#">{{config('settings.currency_symbol').$movie->ticket_price}}</a>
+                                        </li>
                                     </ul>
 
                                     <div class="card__description card__description--details">
-                                        It is a long established fact that a reader will be distracted by the readable
-                                        content of a page when looking at its layout. The point of using Lorem Ipsum is
-                                        that it has a more-or-less normal distribution of letters, as opposed to using
-                                        'Content here, content here', making it look like readable English. Many desktop
-                                        publishing packages and web page editors now use Lorem Ipsum as their default
-                                        model text, and a search for 'lorem ipsum' will uncover many web sites still in
-                                        their infancy.
+                                        {{$movie->description}}
                                     </div>
                                 </div>
                             </div>
@@ -94,6 +98,40 @@
                     </video>
                 </div>
                 <!-- end player -->
+
+                <!-- showing times-->
+
+                    @foreach($attributes as $attribute)
+                        @php
+
+                            if ($movie->attributes->count() > 0) {
+                                $attributeCheck = in_array($attribute->id, $movie->attributes->pluck('attribute_id')->toArray());
+                            } else {
+                                $attributeCheck = [];
+                            }
+                        @endphp
+                        @if($attributeCheck)
+                        <div class="col-12 col-xl-6">
+                            <span class="details__devices-title"><h1>Showing Times</h1></span>
+                            <dl class="d-inline">
+                                    @foreach($movie->attributes as $attributeValue)
+                                            <dt class="details__devices-title">{{ $attributeValue->day }} : </dt>
+                                            <dd >
+                                                <span class="details__devices-title">
+                                                    {{
+                                            \Carbon\Carbon::createFromFormat('H:i',$attributeValue->time)->format('g:i A')
+                                    }}
+                                                </span>
+                                            </dd>
+
+                                    @endforeach
+                                        </dl>
+                        </div>
+                            @else
+                            <span class="details__devices-title"><h1>Not showing at the moment</h1></span>
+                        @endif
+                    @endforeach
+
 
                 <div class="col-12">
                     <div class="details__wrap">
@@ -149,9 +187,10 @@
                                    aria-controls="tab-2" aria-selected="false">Reviews</a>
                             </li>
 
-                            {{--<li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Photos</a>
-                            </li>--}}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3"
+                                   aria-selected="false">Photos</a>
+                            </li>
                         </ul>
                         <!-- end content tabs nav -->
 
@@ -174,11 +213,9 @@
                                                             href="#tab-2" role="tab" aria-controls="tab-2"
                                                             aria-selected="false">Reviews</a></li>
 
-                                    {{--
-                                                                        <li class="nav-item">
-                                                                        <a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab"
-                                                                        aria-controls="tab-3" aria-selected="false">Photos</a></li>
-                                    --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab"
+                                           aria-controls="tab-3" aria-selected="false">Photos</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -345,67 +382,29 @@
                             </div>
                         </div>
 
-                        {{-- <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
-                             <!-- project gallery -->
-                             <div class="gallery" itemscope>
-                                 <div class="row">
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-1.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-1.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 1</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
+                        <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
+                            <!-- project gallery -->
+                            <div class="gallery" itemscope>
+                                <div class="row">
+                                @forelse($movie->images as $image)
+                                    <!-- gallery item -->
+                                        <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
+                                            <a href="{{asset('storage/'.$image->full)}}" itemprop="contentUrl"
+                                               data-size="1920x1280">
+                                                <img src="{{asset('storage/'.$image->full)}}" itemprop="thumbnail"
+                                                     alt="Image description"/>
+                                            </a>
+                                            <figcaption itemprop="caption description">Some image caption 1</figcaption>
+                                        </figure>
+                                        <!-- end gallery item -->
+                                    @empty
+                                        <h2 class="section__title">No Preview Images Available</h2>
+                                    @endforelse
 
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-2.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-2.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 2</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
-
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-3.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-3.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 3</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
-
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-4.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-4.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 4</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
-
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-5.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-5.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 5</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
-
-                                     <!-- gallery item -->
-                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                         <a href="img/gallery/project-6.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                             <img src="img/gallery/project-6.jpg" itemprop="thumbnail" alt="Image description" />
-                                         </a>
-                                         <figcaption itemprop="caption description">Some image caption 6</figcaption>
-                                     </figure>
-                                     <!-- end gallery item -->
-                                 </div>
-                             </div>
-                             <!-- end project gallery -->
-                         </div>--}}
+                                </div>
+                            </div>
+                            <!-- end project gallery -->
+                        </div>
                     </div>
                     <!-- end content tabs -->
                 </div>

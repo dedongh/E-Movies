@@ -4,6 +4,8 @@
       <w>authenticatable</w>
       <w>dropzone</w>
       <w>enderror</w>
+      <w>endforeach</w>
+      <w>endforelse</w>
       <w>fillable</w>
       <w>flutterwave</w>
       <w>momo</w>

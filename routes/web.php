@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home.index');
-//Route::get('/login', 'HomeController@login')->name('home.login');
-//Route::get('/register', 'HomeController@register')->name('home.register');
+
+//Route::get('/test/{slug}', 'Site\GenreController@allG');
+
+Route::get('/genre/{slug}', 'Site\GenreController@show')->name('genre.show');
+
+Route::get('/movies/{slug}', 'Site\MovieController@show')->name('movie.show');
 
 
 Auth::routes();

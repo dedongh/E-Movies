@@ -27,7 +27,9 @@
                                    aria-expanded="false">Genres</a>
 
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="#">Genre 1</a></li>
+                                    @foreach($genres as $genre)
+                                        <li><a href="{{route('genre.show',$genre->slug )}}">{{$genre->name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <!-- end dropdown -->
@@ -43,7 +45,8 @@
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more"
-                                   href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true"
+                                   href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown"
+                                   aria-haspopup="true"
                                    aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -62,11 +65,11 @@
                             </button>
 
                             @guest
-                            <a href="{{route('login')}}" class="header__sign-in">
-                                <i class="icon ion-ios-log-in"></i>
-                                <span>sign in</span>
-                            </a>
-                                @else
+                                <a href="{{route('login')}}" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>sign in</span>
+                                </a>
+                            @else
                                 <a href="{{route('logout')}}" class="header__sign-in"
                                    onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit() "
@@ -77,7 +80,7 @@
                                 <form id="logout-form" action="{{route('logout')}}" method="post" style="display: none">
                                     @csrf
                                 </form>
-                                @endguest
+                            @endguest
                         </div>
                         <!-- end header auth -->
 

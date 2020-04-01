@@ -7,26 +7,38 @@
             </div>
             <!-- end section title -->
 
-            <!-- card -->
+
+            @foreach($premieres as $premiere)
+                <!-- card -->
             <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                 <div class="card">
                     <div class="card__cover">
-                        <img src="{{asset('frontend/img/covers/cover2.jpg')}}" alt="">
-                        <a href="#" class="card__play">
+                        @if($premiere->images->count() > 0)
+                        <img src="{{asset('storage/'.$premiere->images->first()->full)}}" alt="">
+                        <a href="{{route('movie.show', $premiere->slug)}}" class="card__play">
                             <i class="icon ion-ios-play"></i>
                         </a>
+                            @else
+                            <img src="https://via.placeholder.com/176" alt="">
+                            <a href="{{route('movie.show', $premiere->slug)}}" class="card__play">
+                                <i class="icon ion-ios-play"></i>
+                            </a>
+                        @endif
                     </div>
                     <div class="card__content">
-                        <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+                        <h3 class="card__title"><a href="#">{{$premiere->title}}</a></h3>
                         <span class="card__category">
-								<a href="#">Action</a>
-								<a href="#">Triler</a>
+								 @foreach($premiere->genres as $genre)
+                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                            @endforeach
 							</span>
                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                     </div>
                 </div>
             </div>
             <!-- end card -->
+
+            @endforeach
 
 
             <!-- section btn -->
