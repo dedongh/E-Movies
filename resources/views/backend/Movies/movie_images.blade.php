@@ -57,6 +57,7 @@
                             <span class="btn-inner--text">Upload Images</span>
                         </button>
                     </div>
+                    <p class="text-dark"> the first image selected will be the cover image of the movie</p>
                     <p class="text-dark"> the images are uploaded in parallel two at a time per each button click</p>
                 </div>
                 @if($movie->images)

@@ -95,7 +95,7 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- content title -->
-                        <h2 class="content__title">Now showing</h2>
+                        <h2 class="content__title">Also showing</h2>
                         <!-- end content title -->
 
                         <!-- content tabs nav -->

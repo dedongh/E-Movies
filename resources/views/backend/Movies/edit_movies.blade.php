@@ -131,7 +131,7 @@
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox mb-3">
                                                 <input class="custom-control-input" name="now_showing" id="customCheck51"
-                                                       type="checkbox">
+                                                       type="checkbox" {{$movie->now_showing == 1 ? 'checked':''}}>
                                                 <label class="custom-control-label" for="customCheck51">Now Showing</label>
                                             </div>
                                         </div>
