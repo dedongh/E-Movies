@@ -54,7 +54,11 @@
                                                 <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                                             @endforeach
                                         </li>
-                                        <li><span>Release year:</span> {{$movie->release_date}}</li>
+                                        <li><span>Release Date:</span> {{
+                                           \Carbon\Carbon::parse($movie->release_date)->format('F Y')
+
+                                            }}
+                                        </li>
                                         <li><span>Running time:</span> {{$movie->running_time}}</li>
                                         <li><span>Price:</span> <a
                                                 href="#">{{config('settings.currency_symbol').$movie->ticket_price}}</a>

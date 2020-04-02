@@ -48,6 +48,7 @@
                                 <th>Slug</th>
                                 <th>Genres</th>
                                 <th>Release Date</th>
+                                <th>Now Showing</th>
                                 <th>Price</th>
                                 <th>Duration</th>
                                 <th>Start Show Date</th>
@@ -66,6 +67,7 @@
                                 <th>Slug</th>
                                 <th>Genres</th>
                                 <th>Release Date</th>
+                                <th>Now Showing</th>
                                 <th>Price</th>
                                 <th>Duration</th>
                                 <th>Start Show Date</th>
@@ -89,6 +91,12 @@
                                         @endforeach
                                     </td>
                                     <td>{{$movie->release_date}}</td>
+                                    <td> @if($movie->now_showing == 1)
+                                            <span class="badge badge-md badge-success">Yes</span>
+                                        @else
+                                            <span class="badge badge-danger">No</span>
+                                        @endif
+                                    </td>
                                     <td>{{$movie->ticket_price}}</td>
                                     <td>{{$movie->running_time}}</td>
                                     <td>{{$movie->start_show_date}}</td>

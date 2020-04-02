@@ -128,6 +128,13 @@
                                                     Soon</label>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input class="custom-control-input" name="now_showing" id="customCheck51"
+                                                       type="checkbox">
+                                                <label class="custom-control-label" for="customCheck51">Now Showing</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

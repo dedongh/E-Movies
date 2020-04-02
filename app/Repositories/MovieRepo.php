@@ -48,8 +48,9 @@ class MovieRepo extends BaseRepository implements MovieContract
             $status = $collection->has('status') ? 1 : 0;
             $featured = $collection->has('featured') ? 1 : 0;
             $coming_soon = $collection->has('coming_soon') ? 1 : 0;
+            $now_showing = $collection->has('now_showing') ? 1 : 0;
 
-            $merge = $collection->merge(compact('premiere', 'new_item', 'status', 'featured', 'coming_soon'));
+            $merge = $collection->merge(compact('premiere', 'new_item', 'status', 'featured', 'coming_soon','now_showing'));
 
             $movie = new Movies($merge->all());
 
@@ -76,8 +77,9 @@ class MovieRepo extends BaseRepository implements MovieContract
         $status = $collection->has('status') ? 1 : 0;
         $featured = $collection->has('featured') ? 1 : 0;
         $coming_soon = $collection->has('coming_soon') ? 1 : 0;
+        $now_showing = $collection->has('now_showing') ? 1 : 0;
 
-        $merge = $collection->merge(compact('premiere', 'new_item', 'status', 'featured', 'coming_soon'));
+        $merge = $collection->merge(compact('premiere', 'new_item', 'status', 'featured', 'coming_soon','now_showing'));
 
         $movie->update($merge->all());
 

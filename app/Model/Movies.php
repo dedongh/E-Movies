@@ -11,8 +11,8 @@ class Movies extends Model
     protected $table = 'movies';
 
     protected $fillable = [
-        'title', 'slug', 'description', 'release_date', 'ticket_price', 'start_show_date',
-        'end_show_date', 'running_time', 'new_item', 'status', 'premiere', 'featured','coming_soon'
+        'title', 'slug', 'description', 'release_date','year', 'ticket_price', 'start_show_date',
+        'end_show_date', 'running_time', 'now_showing', 'new_item', 'status', 'premiere', 'featured','coming_soon'
     ];
 
     /**
@@ -22,6 +22,12 @@ class Movies extends Model
     {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function setReleaseDateAttribute($value)
+    {
+        $this->attributes['release_date'] = $value;
+        $this->attributes['year'] =  \Carbon\Carbon::parse($value)->format('Y');
     }
 
     protected $casts = [

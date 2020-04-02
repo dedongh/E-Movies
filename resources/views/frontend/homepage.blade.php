@@ -2,11 +2,19 @@
     use App\Model\Movies;
    function criteria($criteria){
        return Movies::where($criteria,1)
+       ->where('status',1)
                    ->get();
    }
 
+   $now = \Carbon\Carbon::now()->format('Y');
+
    $new_items = criteria('new_item');
    $coming_soon = criteria('coming_soon');
+   $features = criteria('featured');
+   $now_showing = criteria('now_showing');
+    $this_year = Movies::where('year', $now)
+                   ->where('status',1)
+                   ->get();
 @endphp
 
 @extends('home')
@@ -95,22 +103,22 @@
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab"
                                    aria-controls="tab-1"
-                                   aria-selected="true">NEW RELEASES</a>
+                                   aria-selected="true">Showing Now</a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2"
-                                   aria-selected="false">MOVIES</a>
+                                   aria-selected="false">Featured</a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3"
-                                   aria-selected="false">TV SERIES</a>
+                                   aria-selected="false">Coming Soon</a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4"
-                                   aria-selected="false">CARTOONS</a>
+                                   aria-selected="false">{{ \Carbon\Carbon::now()->format('Y')}}</a>
                             </li>
                         </ul>
                         <!-- end content tabs nav -->
@@ -127,19 +135,18 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab"
                                                             href="#tab-1" role="tab" aria-controls="tab-1"
-                                                            aria-selected="true">NEW RELEASES</a></li>
+                                                            aria-selected="true">Showing Now</a></li>
 
                                     <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2"
                                                             role="tab" aria-controls="tab-2"
-                                                            aria-selected="false">MOVIES</a></li>
+                                                            aria-selected="false">Featured</a></li>
 
                                     <li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3"
-                                                            role="tab" aria-controls="tab-3" aria-selected="false">TV
-                                            SERIES</a></li>
+                                                            role="tab" aria-controls="tab-3" aria-selected="false">Coming Soon</a></li>
 
                                     <li class="nav-item"><a class="nav-link" id="4-tab" data-toggle="tab" href="#tab-4"
                                                             role="tab" aria-controls="tab-4"
-                                                            aria-selected="false">CARTOONS</a></li>
+                                                            aria-selected="false">{{ \Carbon\Carbon::now()->format('Y')}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -154,25 +161,34 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                     <div class="row">
+                        @forelse($now_showing as $featured)
                         <!-- card -->
                         <div class="col-6 col-sm-12 col-lg-6">
                             <div class="card card--list">
                                 <div class="row">
                                     <div class="col-12 col-sm-4">
                                         <div class="card__cover">
-                                            <img src="{{asset('frontend/img/covers/cover4.jpg')}}" alt="">
-                                            <a href="#" class="card__play">
-                                                <i class="icon ion-ios-play"></i>
-                                            </a>
+                                            @if($featured->images->count() > 0)
+                                                <img src="{{asset('storage/'. $featured->images->first()->full)}}" alt="" >
+                                                <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                    <i class="icon ion-ios-play"></i>
+                                                </a>
+                                            @else
+                                                <img src="https://via.placeholder.com/176" alt="">
+                                                <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                    <i class="icon ion-ios-play"></i>
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-sm-8">
                                         <div class="card__content">
-                                            <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+                                            <h3 class="card__title"><a href="#">{{$featured->title}}</a></h3>
                                             <span class="card__category">
-												<a href="#">Action</a>
-												<a href="#">Triler</a>
+												 @foreach($featured->genres as $genre)
+                                                    <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                                @endforeach
 											</span>
 
                                             <div class="card__wrap">
@@ -185,12 +201,7 @@
                                             </div>
 
                                             <div class="card__description">
-                                                <p>It is a long established fact that a reader will be distracted by the
-                                                    readable content of a page when looking at its layout. The point of
-                                                    using Lorem Ipsum is that it has a more-or-less normal distribution
-                                                    of
-                                                    letters, as opposed to using 'Content here, content here', making it
-                                                    look like readable English.</p>
+                                                <p>{{$featured->description}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -198,186 +209,125 @@
                             </div>
                         </div>
                         <!-- end card -->
+                            @empty
+                                <h2 class="section__title">No Movies Available</h2>
+                            @endforelse
 
-                        <!-- card -->
-                        <div class="col-6 col-sm-12 col-lg-6">
-                            <div class="card card--list">
-                                <div class="row">
-                                    <div class="col-12 col-sm-4">
-                                        <div class="card__cover">
-                                            <img src="{{asset('frontend/img/covers/cover3.jpg')}}" alt="">
-                                            <a href="#" class="card__play">
-                                                <i class="icon ion-ios-play"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-sm-8">
-                                        <div class="card__content">
-                                            <h3 class="card__title"><a href="#">Benched</a></h3>
-                                            <span class="card__category">
-												<a href="#">Comedy</a>
-											</span>
-
-                                            <div class="card__wrap">
-                                                <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-
-                                                <ul class="card__list">
-                                                    <li>HD</li>
-                                                    <li>16+</li>
-                                                </ul>
-                                            </div>
-
-                                            <div class="card__description">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text
-                                                    ever
-                                                    since the 1500s, when an unknown printer took a galley of type and
-                                                    scrambled it to make a type specimen book.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                     <div class="row">
+
+                        @forelse($features as $featured)
                         <!-- card -->
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                             <div class="card">
                                 <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover5.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
+                                    @if($featured->images->count() > 0)
+                                        <img src="{{asset('storage/'. $featured->images->first()->full)}}" alt="" >
+                                        <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                            <i class="icon ion-ios-play"></i>
+                                        </a>
+                                    @else
+                                        <img src="https://via.placeholder.com/176" alt="">
+                                        <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                            <i class="icon ion-ios-play"></i>
+                                        </a>
+                                    @endif
                                 </div>
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+                                    <h3 class="card__title"><a href="#">{{$featured->title}}</a></h3>
                                     <span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
+										 @foreach($featured->genres as $genre)
+                                            <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                        @endforeach
 									</span>
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                                 </div>
                             </div>
                         </div>
                         <!-- end card -->
+                            @empty
+                                <h2 class="section__title">No Movies Available</h2>
+                            @endforelse
 
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover6.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
 
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
                     <div class="row">
+
+                    @forelse($coming_soon as $featured)
                         <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover3.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                                <div class="card">
+                                    <div class="card__cover">
+                                        @if($featured->images->count() > 0)
+                                            <img src="{{asset('storage/'. $featured->images->first()->full)}}" alt="" >
+                                            <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @else
+                                            <img src="https://via.placeholder.com/176" alt="">
+                                            <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="card__content">
+                                        <h3 class="card__title"><a href="#">{{$featured->title}}</a></h3>
+                                        <span class="card__category">
+										 @foreach($featured->genres as $genre)
+                                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                            @endforeach
 									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover3.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
+                            <!-- end card -->
+                        @empty
+                            <h2 class="section__title">No Movies Available</h2>
+                        @endforelse
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="4-tab">
                     <div class="row">
+                    @forelse($this_year as $featured)
                         <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover4.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                                <div class="card">
+                                    <div class="card__cover">
+                                        @if($featured->images->count() > 0)
+                                            <img src="{{asset('storage/'. $featured->images->first()->full)}}" alt="" >
+                                            <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @else
+                                            <img src="https://via.placeholder.com/176" alt="">
+                                            <a href="{{route('movie.show', $featured->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="card__content">
+                                        <h3 class="card__title"><a href="#">{{$featured->title}}</a></h3>
+                                        <span class="card__category">
+										 @foreach($featured->genres as $genre)
+                                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                            @endforeach
 									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover5.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
+                            <!-- end card -->
+                        @empty
+                            <h2 class="section__title">No Movies Available</h2>
+                        @endforelse
 
                     </div>
                 </div>
