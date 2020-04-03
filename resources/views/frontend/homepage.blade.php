@@ -8,11 +8,14 @@
 
    $now = \Carbon\Carbon::now()->format('Y');
 
-   $new_items = criteria('new_item');
+   //$new_items = criteria('new_item');
+   $new_items = Movies::where('status',1)
+                    ->orderByRaw('id DESC')
+                    ->get();
    $coming_soon = criteria('coming_soon');
    $features = criteria('featured');
    $now_showing = criteria('now_showing');
-    $this_year = Movies::where('year', $now)
+   $this_year = Movies::where('year', $now)
                    ->where('status',1)
                    ->get();
 @endphp

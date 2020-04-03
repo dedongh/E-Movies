@@ -124,9 +124,9 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox mb-3">
-                                                <input class="custom-control-input" name="now_showing" id="customCheck51"
+                                                <input class="custom-control-input" name="now_showing" id="customCheck511"
                                                        type="checkbox">
-                                                <label class="custom-control-label" for="customCheck51">Now Showing</label>
+                                                <label class="custom-control-label" for="customCheck511">Now Showing</label>
                                             </div>
                                         </div>
                                     </div>
