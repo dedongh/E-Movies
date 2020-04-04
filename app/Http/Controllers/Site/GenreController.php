@@ -21,11 +21,6 @@ class GenreController extends Controller
 
         $ass_movie = $genre->movies;
 
-        /*foreach ($ass_movie as $movie) {
-            print_r($movie->title);
-        }*/
-
-
 
        return view('frontend.catalog', compact('genre','ass_movie'));
     }

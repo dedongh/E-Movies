@@ -368,7 +368,7 @@
                                                         <span
                                                             class="reviews__name">{{$review->title}}</span>
 
-                                                        <span class="reviews__time">{{$review->created_at}} by
+                                                        <span class="reviews__time">{{$review->created_at->diffForHumans()}} by
 
                                                             {{\App\User::find($review->user_id)->full_name}}</span>
 

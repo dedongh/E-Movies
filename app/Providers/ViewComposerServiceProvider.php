@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Model\Genre;
 use App\Model\Movies;
+use App\Model\Reviews;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +37,10 @@ class ViewComposerServiceProvider extends ServiceProvider
             $view->with('premieres', Movies::where('premiere',1)
                 ->limit(6)
                 ->get());
+        });
+
+        View::composer(['dashboard'], function ($view) {
+            $view->with('reviews', Reviews::where('status',0)->where('seen',0)->get());
         });
     }
 }

@@ -1,5 +1,5 @@
 @extends('home')
-@section('title'){{config('settings.site_name')}} | {{$genre->name}} @endsection
+@section('title'){{config('settings.site_name')}} | {{'All Movies'}} @endsection
 @prepend('header')
     @include('frontend.header')
 @endprepend
@@ -12,13 +12,13 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h2 class="section__title">{{$genre->name}}</h2>
+                        <h2 class="section__title">{{'All Movies'}}</h2>
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
                         <ul class="breadcrumb">
                             <li class="breadcrumb__item"><a href="{{URL::to('/')}}">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">{{$genre->name}}</li>
+                            <li class="breadcrumb__item breadcrumb__item--active">{{'All Movies'}}</li>
                         </ul>
                         <!-- end breadcrumb -->
                     </div>
@@ -41,7 +41,7 @@
 
                                 <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre"
                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="{{$genre->name}}">
+                                    <input type="button" value="">
                                     <span></span>
                                 </div>
 
@@ -135,56 +135,46 @@
         <div class="container">
             <div class="row">
                 <!-- card -->
-            @forelse($ass_movie as $movie)
-            <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
-                <div class="card">
-                    <div class="card__cover">
-                        @if($movie->images->count() > 0)
-                        <img src="{{asset('storage/'. $movie->images->first()->full)}}" alt="" >
-                        <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
-                            <i class="icon ion-ios-play"></i>
-                        </a>
-                            @else
-                            <img src="https://via.placeholder.com/176" alt="">
-                            <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                            @endif
-                    </div>
-                    <div class="card__content">
-                        <h3 class="card__title"><a href="#">{{$movie->title}}</a></h3>
-                        <span class="card__category">
+                @forelse($movies as $movie)
+                    <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="card">
+                            <div class="card__cover">
+                                @if($movie->images->count() > 0)
+                                    <img src="{{asset('storage/'. $movie->images->first()->full)}}" alt="" >
+                                    <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                @else
+                                    <img src="https://via.placeholder.com/176" alt="">
+                                    <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                @endif
+                            </div>
+                            <div class="card__content">
+                                <h3 class="card__title"><a href="#">{{$movie->title}}</a></h3>
+                                <span class="card__category">
                             @foreach($movie->genres as $genre)
-                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
-                            @endforeach
+                                        <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                    @endforeach
                         </span>
-                        <span class="card__rate"><i class="icon ion-ios-star"></i>{{
+                                <span class="card__rate"><i class="icon ion-ios-star"></i>{{
                                                 $movie->reviews->where('status',1)->count() >0 ?
                                                 round($movie->reviews->sum('rating')
                                                 / $movie->reviews->count(),2) : 0
                                             }}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
                 @empty
-                <h2 class="section__title">No Movies Available</h2>
+                    <h2 class="section__title">No Movies Available</h2>
             @endforelse
             <!-- end card -->
 
 
-            <!-- paginator -->
+                <!-- paginator -->
                 <div class="col-12">
-                    <ul class="paginator">
-                        <li class="paginator__item paginator__item--prev">
-                            <a href="#"><i class="icon ion-ios-arrow-back"></i></a>
-                        </li>
-                        <li class="paginator__item"><a href="#">1</a></li>
-                        <li class="paginator__item paginator__item--active">
-                            <a href="#">2</a></li>
-                        <li class="paginator__item paginator__item--next">
-                            <a href="#"><i class="icon ion-ios-arrow-forward"></i></a>
-                        </li>
-                    </ul>
+                    {{$movies->links()}}
                 </div>
                 <!-- end paginator -->
             </div>

@@ -47,7 +47,7 @@
 
             <!-- section btn -->
             <div class="col-12">
-                <a href="#" class="section__btn">Show more</a>
+                <a href="{{route('movie.all')}}" class="section__btn">Show more</a>
             </div>
             <!-- end section btn -->
         </div>
