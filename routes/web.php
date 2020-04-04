@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home.index');
 
-//Route::get('/test/{slug}', 'Site\GenreController@allG');
-
 Route::get('/genre/{slug}', 'Site\GenreController@show')->name('genre.show');
 
 Route::get('/movies/{slug}', 'Site\MovieController@show')->name('movie.show');
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/reviews', 'Site\ReviewController@create')->name('review.add');
+
+});
 
 Auth::routes();
 require 'admin.php';

@@ -52,4 +52,9 @@ class Movies extends Model
     {
         return $this->belongsToMany(Genre::class,'movies_genres','movie_id','genre_id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class);
+    }
 }

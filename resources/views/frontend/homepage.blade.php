@@ -76,7 +76,12 @@
                                                 <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                                             @endforeach
 									</span>
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>
+                                           {{
+                                                $new_item->reviews->where('status',1)->count() >0 ?
+                                                round($new_item->reviews->sum('rating')
+                                                / $new_item->reviews->count(),2) : 0
+                                            }}</span>
                                     </div>
                                 </div>
                                 <!-- end card -->
@@ -195,7 +200,12 @@
 											</span>
 
                                             <div class="card__wrap">
-                                                <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                                <span class="card__rate"><i class="icon ion-ios-star"></i>
+                                                   {{
+                                                $featured->reviews->where('status',1)->count() >0 ?
+                                                round($featured->reviews->sum('rating')
+                                                / $featured->reviews->count(),2) : 0
+                                            }}</span>
 
                                                 <ul class="card__list">
                                                     <li>HD</li>
@@ -224,7 +234,7 @@
 
                         @forelse($features as $featured)
                         <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
                             <div class="card">
                                 <div class="card__cover">
                                     @if($featured->images->count() > 0)
@@ -246,7 +256,12 @@
                                             <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                                         @endforeach
 									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>
+                                         {{
+                                                $featured->reviews->where('status',1)->count() >0 ?
+                                                round($featured->reviews->sum('rating')
+                                                / $featured->reviews->count(),2) : 0
+                                            }}</span>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +279,7 @@
 
                     @forelse($coming_soon as $featured)
                         <!-- card -->
-                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
                                 <div class="card">
                                     <div class="card__cover">
                                         @if($featured->images->count() > 0)
@@ -286,7 +301,11 @@
                                                 <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                                             @endforeach
 									</span>
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i> {{
+                                                $featured->reviews->where('status',1)->count() >0 ?
+                                                round($featured->reviews->sum('rating')
+                                                / $featured->reviews->count(),2) : 0
+                                            }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -301,7 +320,7 @@
                     <div class="row">
                     @forelse($this_year as $featured)
                         <!-- card -->
-                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
                                 <div class="card">
                                     <div class="card__cover">
                                         @if($featured->images->count() > 0)
@@ -323,7 +342,11 @@
                                                 <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                                             @endforeach
 									</span>
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i> {{
+                                                $featured->reviews->where('status',1)->count() >0 ?
+                                                round($featured->reviews->sum('rating')
+                                                / $featured->reviews->count(),2) : 0
+                                            }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -368,50 +391,12 @@
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                     <a href="#" class="partner">
-                        <img src="img/partners/themeforest-light-background.png" alt="" class="partner__img">
+                        <img src="{{asset('backend/img/ek_logo.jpg')}}" alt="" class="partner__img">
                     </a>
                 </div>
                 <!-- end partner -->
 
-                <!-- partner -->
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="#" class="partner">
-                        <img src="img/partners/audiojungle-light-background.png" alt="" class="partner__img">
-                    </a>
-                </div>
-                <!-- end partner -->
 
-                <!-- partner -->
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="#" class="partner">
-                        <img src="img/partners/codecanyon-light-background.png" alt="" class="partner__img">
-                    </a>
-                </div>
-                <!-- end partner -->
-
-                <!-- partner -->
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="#" class="partner">
-                        <img src="img/partners/photodune-light-background.png" alt="" class="partner__img">
-                    </a>
-                </div>
-                <!-- end partner -->
-
-                <!-- partner -->
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="#" class="partner">
-                        <img src="img/partners/activeden-light-background.png" alt="" class="partner__img">
-                    </a>
-                </div>
-                <!-- end partner -->
-
-                <!-- partner -->
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="#" class="partner">
-                        <img src="img/partners/3docean-light-background.png" alt="" class="partner__img">
-                    </a>
-                </div>
-                <!-- end partner -->
             </div>
         </div>
     </section>

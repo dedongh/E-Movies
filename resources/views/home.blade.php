@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
+    <link rel="stylesheet" href="{{asset('backend/css/all.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap-reboot.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap-grid.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/owl.carousel.min.css')}}">
@@ -129,6 +130,7 @@
 <script src="{{asset('frontend/js/photoswipe.min.js')}}"></script>
 <script src="{{asset('frontend/js/photoswipe-ui-default.min.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
+@stack('scripts')
 </body>
 
 </html>

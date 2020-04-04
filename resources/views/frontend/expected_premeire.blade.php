@@ -10,7 +10,7 @@
 
             @foreach($premieres as $premiere)
                 <!-- card -->
-            <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-3">
                 <div class="card">
                     <div class="card__cover">
                         @if($premiere->images->count() > 0)
@@ -32,7 +32,11 @@
                                 <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
                             @endforeach
 							</span>
-                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                        <span class="card__rate"><i class="icon ion-ios-star"></i> {{
+                                                $premiere->reviews->where('status',1)->count() >0 ?
+                                                round($premiere->reviews->sum('rating')
+                                                / $premiere->reviews->count(),2) : 0
+                                            }}</span>
                     </div>
                 </div>
             </div>

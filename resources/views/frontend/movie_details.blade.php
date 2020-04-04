@@ -40,7 +40,14 @@
                             <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                                 <div class="card__content">
                                     <div class="card__wrap">
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>
+                                           {{
+                                                $movie->reviews->where('status',1)->count() >0 ?
+                                                round($movie->reviews->sum('rating')
+                                                / $movie->reviews->count(),2) : 0
+                                            }}
+                                        </span>
 
                                         <ul class="card__list">
                                             <li>HD</li>
@@ -105,36 +112,36 @@
 
                 <!-- showing times-->
 
-                    @foreach($attributes as $attribute)
-                        @php
+                @foreach($attributes as $attribute)
+                    @php
 
-                            if ($movie->attributes->count() > 0) {
-                                $attributeCheck = in_array($attribute->id, $movie->attributes->pluck('attribute_id')->toArray());
-                            } else {
-                                $attributeCheck = [];
-                            }
-                        @endphp
-                        @if($attributeCheck)
+                        if ($movie->attributes->count() > 0) {
+                            $attributeCheck = in_array($attribute->id, $movie->attributes->pluck('attribute_id')->toArray());
+                        } else {
+                            $attributeCheck = [];
+                        }
+                    @endphp
+                    @if($attributeCheck)
                         <div class="col-12 col-xl-6">
                             <span class="details__devices-title"><h1>Showing Times</h1></span>
                             <dl class="d-inline">
-                                    @foreach($movie->attributes as $attributeValue)
-                                            <dt class="details__devices-title">{{ $attributeValue->day }} : </dt>
-                                            <dd >
+                                @foreach($movie->attributes as $attributeValue)
+                                    <dt class="details__devices-title">{{ $attributeValue->day }} :</dt>
+                                    <dd>
                                                 <span class="details__devices-title">
                                                     {{
                                             \Carbon\Carbon::createFromFormat('H:i',$attributeValue->time)->format('g:i A')
                                     }}
                                                 </span>
-                                            </dd>
+                                    </dd>
 
-                                    @endforeach
-                                        </dl>
+                                @endforeach
+                            </dl>
                         </div>
-                            @else
-                            <span class="details__devices-title"><h1>Not showing at the moment</h1></span>
-                        @endif
-                    @endforeach
+                    @else
+                        <span class="details__devices-title"><h1>Not showing at the moment</h1></span>
+                    @endif
+                @endforeach
 
 
                 <div class="col-12">
@@ -348,42 +355,93 @@
 
                         <div class="tab-pane fade show active" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                             <div class="row">
+
+                            @forelse($movie->reviews->where('status',1) as $review)
                                 <!-- reviews -->
-                                <div class="col-12">
-                                    <div class="reviews">
-                                        <ul class="reviews__list">
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar"
-                                                         src="{{asset('frontend/img/user.png')}}" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
+                                    <div class="col-12">
+                                        <div class="reviews">
+                                            <ul class="reviews__list">
+                                                <li class="reviews__item">
+                                                    <div class="reviews__autor">
+                                                        <img class="reviews__avatar"
+                                                             src="{{asset('backend/img/bitmoji.png')}}" alt="">
+                                                        <span
+                                                            class="reviews__name">{{$review->title}}</span>
 
-                                                    <span class="reviews__rating"><i
-                                                            class="icon ion-ios-star"></i>8.4</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem
-                                                    Ipsum available, but the majority have suffered alteration in some
-                                                    form, by injected humour, or randomised words which don't look even
-                                                    slightly believable. If you are going to use a passage of Lorem
-                                                    Ipsum, you need to be sure there isn't anything embarrassing hidden
-                                                    in the middle of text.</p>
-                                            </li>
-                                        </ul>
+                                                        <span class="reviews__time">{{$review->created_at}} by
 
-                                        <form action="#" class="form">
-                                            <input type="text" class="form__input" placeholder="Title">
-                                            <textarea class="form__textarea" placeholder="Review"></textarea>
+                                                            {{\App\User::find($review->user_id)->full_name}}</span>
+
+                                                        <span class="reviews__rating"><i
+                                                                class="icon ion-ios-star"></i>
+                                                        {{$review->rating}}
+                                                        </span>
+                                                    </div>
+                                                    <p class="reviews__text">{{$review->review}}</p>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                    <!-- end reviews -->
+                                @empty
+                                    <h2 class="section__title">No reviews Available</h2>
+                                @endforelse
+                            </div>
+                            @guest
+                                <h2 class="section__title">Login to review the movie</h2>
+
+                            @else
+                                <div class="row">
+                                    <style>
+                                        .alert {
+                                            position: relative;
+                                            margin-bottom: 1rem;
+                                            padding: .75rem 1.25rem;
+                                            border: 1px solid transparent;
+                                            border-radius: .25rem
+                                        }
+
+                                        .alert-success {
+                                            color: #155724;
+                                            border-color: #c3e6cb;
+                                            background-color: #d4edda
+                                        }
+
+                                        .alert-dismissible {
+                                            padding-right: 4rem
+                                        }
+
+                                        .alert-dismissible .close {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                            padding: .75rem 1.25rem;
+                                            color: inherit
+                                        }
+                                    </style>
+
+                                    <div class="col-12">
+                                        @include('backend.partials.flash')
+                                        <form action="{{route('review.add')}}" method="post" class="form">
+                                            @csrf
+                                            <input type="text" name="title" class="form__input" placeholder="Title"
+                                                   required>
+                                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                            <input type="hidden" name="movies_id" value="{{$movie->id}}">
+                                            <textarea class="form__textarea" name="review" placeholder="Review"
+                                                      required></textarea>
                                             <div class="form__slider">
                                                 <div class="form__slider-rating" id="slider__rating"></div>
                                                 <div class="form__slider-value" id="form__slider-value"></div>
+                                                <input type="hidden" id="rating" name="rating" value="">
                                             </div>
-                                            <button type="button" class="form__btn">Send</button>
+                                            <button type="submit" class="form__btn">Send</button>
                                         </form>
                                     </div>
+
                                 </div>
-                                <!-- end reviews -->
-                            </div>
+                            @endguest
                         </div>
 
                         <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
@@ -421,47 +479,47 @@
                             <h2 class="section__title section__title--sidebar">You may also like...</h2>
                         </div>
                         <!-- end section title -->
+                        @php
+                            use App\Model\Movies;
+                            $random_movies = Movies::all()->where('status', 1)->random(6)
 
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                        @endphp
+                        @forelse($random_movies as $movie)
+                            <div class="col-6 col-sm-4 col-lg-6 ">
+                                <div class="card">
+                                    <div class="card__cover">
+                                        @if($movie->images->count() > 0)
+                                            <img src="{{asset('storage/'. $movie->images->first()->full)}}" alt="">
+                                            <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @else
+                                            <img src="https://via.placeholder.com/176" alt="">
+                                            <a href="{{route('movie.show', $movie->slug)}}" class="card__play">
+                                                <i class="icon ion-ios-play"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <div class="card__content">
+                                        <h3 class="card__title"><a href="#">{{$movie->title}}</a></h3>
+                                        <span class="card__category">
+                            @foreach($movie->genres as $genre)
+                                                <a href="{{route('genre.show',$genre->slug)}}">{{$genre->name}}</a>
+                                            @endforeach
+                        </span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>
+                                           {{
+                                                $movie->reviews->where('status',1)->count() >0 ?
+                                                round($movie->reviews->sum('rating')
+                                                / $movie->reviews->count(),2) : 0
+                                            }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-6">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="{{asset('frontend/img/covers/cover2.jpg')}}" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
+                        @empty
+                            <h2 class="section__title">No Movies Available</h2>
+                        @endforelse
 
                     </div>
                 </div>
@@ -475,3 +533,5 @@
 @push('footer')
     @include('frontend.footer')
 @endpush
+
+
