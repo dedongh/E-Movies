@@ -207,6 +207,7 @@
                             <div class="list-group list-group-flush">
                                 @foreach($reviews as $review)
                                 <a href="#!" class="list-group-item list-group-item-action">
+
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
@@ -223,6 +224,7 @@
                                                 </div>
                                             </div>
                                             <p class="text-sm mb-0">{{$review->title}}</p>
+                                            <span class="badge badge-sm bg-gradient-default text-white">Review</span>
                                         </div>
                                     </div>
                                 </a>

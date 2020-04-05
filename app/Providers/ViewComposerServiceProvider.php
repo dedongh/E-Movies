@@ -39,8 +39,11 @@ class ViewComposerServiceProvider extends ServiceProvider
                 ->get());
         });
 
-        View::composer(['dashboard'], function ($view) {
-            $view->with('reviews', Reviews::where('status',0)->where('seen',0)->get());
+        View::composer(['dashboard','backend.admin_home'], function ($view) {
+            $view->with('reviews', Reviews::where('status',0)
+                ->where('seen',0)
+                ->orderByRaw('id DESC')
+                ->get());
         });
     }
 }

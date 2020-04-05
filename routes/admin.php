@@ -19,8 +19,12 @@ Route::group(['prefix' => 'admin'], function () {
         });
         Route::post('/settings', 'Admin\SettingController@update')->name('admin.settings.update');
 
-        Route::get('/bookings', 'Admin\SettingController@change')->name('admin.bookings');
-        Route::get('/reviews', 'Admin\SettingController@change')->name('admin.reviews');
+        Route::get('/approve', 'Admin\SettingController@change')->name('admin.bookings');
+        Route::get('{id}/approve', 'Admin\ReviewController@approve')->name('admin.reviews.approve');
+        Route::get('{id}/unapprove', 'Admin\ReviewController@unapprove')->name('admin.reviews.unapprove');
+        Route::get('{id}/delete', 'Admin\ReviewController@delete')->name('admin.reviews.delete');
+
+        Route::get('/reviews', 'Admin\ReviewController@index')->name('admin.reviews');
 
         Route::group(['prefix' => 'genre'], function () {
             Route::get('/add', 'Admin\GenreController@add')->name('admin.genre');
